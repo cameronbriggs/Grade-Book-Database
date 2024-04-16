@@ -1,4 +1,4 @@
-# Gradebook Database Project for Academic Courses
+# Gradebook Database Project
 
 ## Problem Statement
 
@@ -31,7 +31,7 @@ The following is a guide on how to install MySQL, create a database, and connect
 
 3. **Complete the Setup**: Finish the installation by following the setup wizard's instructions. It may include setting up MySQL as a service that starts on boot.
 
-## Finding the MySQL Installation
+### Finding the MySQL Installation
 
 1. **Default Installation Path**: After installation, MySQL is typically located in one of the following directories, depending on your operating system:
    - On macOS: `/usr/local/mysql/bin`
@@ -41,7 +41,7 @@ The following is a guide on how to install MySQL, create a database, and connect
 
 3. **Verify Installation**: You can verify that MySQL is running by opening your terminal (or Command Prompt on Windows) and typing `mysql -u root -p`, then entering the password you set during installation.
 
-## Creating a Database
+### Creating a Database
 
 1. **Access the MySQL Shell**: After opening the MySQL command-line tool, create a new database by running:
    ```sql
@@ -49,4 +49,43 @@ The following is a guide on how to install MySQL, create a database, and connect
    ```
    Note: Make the database name "gradebook_db" for code extensive purposes.
 
+## Adding VScode Extensions
+
+To manage your MySQL databases directly within Visual Studio Code, you'll need to install two extensions: `Database Client JDBC` and `MySQL`. These extensions allow you to connect to and interact with your MySQL databases through a user-friendly interface. 
+
+### Installing the Required Extensions
+
+1. **Open Visual Studio Code**: Launch the application on your computer.
+
+2. **Access the Extensions Marketplace**:
+    - Click on the Extensions icon on the sidebar, or use the shortcut `Cmd+Shift+X` on macOS.
+
+3. **Search for Extensions**:
+    - Type `Database Client JDBC` into the search bar and find the extension by Weijan Chen.
+    - Click the `Install` button to install the extension.
+    - Repeat the search and installation process for the `MySQL` extension.
+
+4. **Confirm Installation**:
+    - After installation, the extensions should appear in the Extensions sidebar. You can click on them to manage their settings or view more information.
+
+### Connecting Database Client JDBC to Your MySQL Database
+
+1. **Open Command Palette**:
+    - Use the shortcut `Ctrl+Shift+P` on Windows/Linux or `Cmd+Shift+P` on macOS to open the Command Palette.
+
+2. **Initiate Connection**:
+    - Type `Database Client: Add New Connection` and select the option to open the connection configuration pane.
+
+3. **Configure Database Connection**:
+    - Choose `MySQL` as the database type.
+    - Enter your MySQL connection details including hostname (often `localhost` or `127.0.0.1` if running on the same machine), port (usually `3306`), user (like `root`), and the password you set during installation.
+    - If you've created a specific database already, you can enter its name; otherwise, you can connect to the default MySQL database to execute further operations like creating a new database. FOR THE SAKE OF THIS PROJECT, use the database name from earlier `gradebook_db`.
+
+4. **Save and Test Connection**:
+    - Save the configuration. The extension should automatically attempt to connect to your MySQL server with the provided details.
+    - If the connection is successful, you will see the database and its schemas listed in the `DATABASE` panel, typically on the sidebar of VS Code.
+
+### Run Code
+
+With the extension set up, you can now run our sql files on your computer. Open up the files in vscode, then right-click inside the file. Press on 'Run all SQL' or 'Run all SQL in Editor' to run the whole file. If you'd like to run selective parts, just highlight the part and right-click or click on the 'Execute' play button on top of the selected part to run it.
 
