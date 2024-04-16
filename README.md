@@ -104,4 +104,180 @@ With the extension set up, you can now run our sql files on your computer. Open 
    - Test cases code can be found in **testcases.sql** file.
    - The results from the test cases can be found in the **testcase results** folder containing screenshots of the results. Each screenshot is labeled according to the task results it shows.
 
+### Commands for Creating Tables
+
+Courses Table:
+```sql
+CREATE TABLE Courses (
+    CourseID INT NOT NULL AUTO_INCREMENT,
+    Department VARCHAR(50),
+    CourseNumber VARCHAR(10),
+    CourseName VARCHAR(100),
+    Semester VARCHAR(10),
+    Year INT,
+    PRIMARY KEY (CourseID)
+);
+```
+
+Students Table:
+```sql
+CREATE TABLE Students (
+    StudentID INT NOT NULL AUTO_INCREMENT,
+    FirstName VARCHAR(100),
+    LastName VARCHAR(100),
+    PRIMARY KEY (StudentID)
+);
+```
+
+Enrollment Table:
+```sql
+CREATE TABLE Enrollments (
+    StudentID INT,
+    CourseID INT,
+    PRIMARY KEY (StudentID, CourseID),
+    FOREIGN KEY (StudentID) REFERENCES Students(StudentID),
+    FOREIGN KEY (CourseID) REFERENCES Courses(CourseID)
+);
+```
+
+Assignments Table:
+```sql
+CREATE TABLE Assignments (
+    AssignmentID INT NOT NULL AUTO_INCREMENT,
+    CourseID INT,
+    AssignmentName VARCHAR(255),
+    Category VARCHAR(50),
+    Weight FLOAT,
+    PRIMARY KEY (AssignmentID),
+    FOREIGN KEY (CourseID) REFERENCES Courses(CourseID)
+);
+
+```
+
+Scores Table:
+```sql
+-- Table for scores on assignments
+CREATE TABLE Scores (
+    AssignmentID INT,
+    StudentID INT,
+    Score FLOAT,
+    PRIMARY KEY (AssignmentID, StudentID),
+    FOREIGN KEY (AssignmentID) REFERENCES Assignments(AssignmentID),
+    FOREIGN KEY (StudentID) REFERENCES Students(StudentID)
+);
+```
+
+### Commands for inserting values
+
+Inserting Course data:
+```sql
+INSERT INTO Courses (Department, CourseNumber, CourseName, Semester, Year) VALUES
+('Math', 'M101', 'Calculus I', 'Fall', 2024),
+('Science', 'SCI103', 'Biology', 'Fall', 2024),
+('English Language Arts', 'ELA105', 'Essay Writing', 'Fall', 2024),
+('History', 'HIST107', 'US History', 'Fall', 2024);
+```
+
+Inserting Student data:
+```sql
+INSERT INTO Students (FirstName, LastName) VALUES
+('John', 'Doe'),
+('Anna', 'Bell'),
+('April', 'Jones'),
+('John', 'Wick'),
+('Tyler', 'Johnson'),
+('Jane', 'Doe');
+```
+
+Inserting Enrollment data:
+```sql
+INSERT INTO Enrollments (StudentID, CourseID) VALUES
+(1, 1),
+(2, 1),
+(2, 3),
+(3, 3),
+(3, 2),
+(4, 2),
+(5, 4),
+(6, 4);
+```
+
+Inserting Assignment data:
+```sql
+INSERT INTO Assignments (CourseID, AssignmentName, Category, Weight) VALUES
+-- Course one
+(1, 'Midterm Exam', 'Tests', 25.0),
+(1, 'Final Exam', 'Test', 25.0),
+(1, 'Project', 'Projects', 20.0),
+(1, 'Homework 1', 'Homeworks', 5.0),
+(1, 'Homework 2', 'Homeworks', 5.0),
+(1, 'Homework 3', 'Homeworks', 5.0),
+(1, 'Participation', 'Participation', 5.0),
+-- Course three
+(3, 'Midterm Exam', 'Tests', 25.0),
+(3, 'Final Exam', 'Test', 25.0),
+(3, 'Project', 'Projects', 20.0),
+(3, 'Homework 1', 'Homeworks', 5.0),
+(3, 'Homework 2', 'Homeworks', 5.0),
+(3, 'Homework 3', 'Homeworks', 5.0),
+(3, 'Participation', 'Participation', 5.0),
+-- Course two
+(2, 'Midterm Exam', 'Test', 25.0),
+(2, 'Final Exam', 'Test', 25.0),
+(2, 'Project', 'Projects', 20.0),
+(2, 'Homework 1', 'Homeworks', 5.0),
+(2, 'Homework 2', 'Homeworks', 5.0),
+(2, 'Homework 3', 'Homeworks', 5.0),
+(2, 'Participation', 'Participation', 5.0),
+-- Course four
+(4, 'Midterm Exam', 'Test', 25.0),
+(4, 'Final Exam', 'Test', 25.0),
+(4, 'Project', 'Projects', 20.0),
+(4, 'Homework 1', 'Homeworks', 5.0),
+(4, 'Homework 2', 'Homeworks', 5.0),
+(4, 'Homework 3', 'Homeworks', 5.0),
+(4, 'Participation', 'Participation', 5.0);
+```
+
+Inserting Scores data:
+```sql
+INSERT INTO Scores (AssignmentID, StudentID, Score) VALUES
+-- Scores for Course 1 (Students 1 and 2 are enrolled)
+(1, 1, 84), (1, 2, 91),  -- Midterm Exam
+(2, 1, 86), (2, 2, 90),  -- Final Exam
+(3, 1, 90), (3, 2, 85),  -- Project
+(4, 1, 81), (4, 2, 88),  -- Homework 1
+(21, 1, 83), (21, 2, 88), -- Homework 2
+(22, 1, 87), (22, 2, 91), -- Homework 3
+(5, 1, 88), (5, 2, 92),  -- Participation
+
+-- Scores for Course 3 (Students 2 and 3 are enrolled)
+(6, 2, 85), (6, 3, 75),  -- Midterm Exam
+(7, 2, 91), (7, 3, 76),  -- Final Exam
+(8, 2, 84), (8, 3, 82),  -- Project
+(9, 2, 87), (9, 3, 78),  -- Homework 1
+(23, 3, 85), (23, 4, 89), -- Homework 2
+(24, 3, 82), (24, 4, 92), -- Homework 3
+(10, 2, 90), (10, 3, 83),-- Participation
+
+-- Scores for Course 2 (Students 3 and 4 are enrolled)
+(11, 3, 87), (11, 4, 92),  -- Midterm Exam
+(12, 3, 84), (12, 4, 89),  -- Final Exam
+(13, 3, 91), (13, 4, 86),  -- Project
+(14, 3, 82), (14, 4, 90),  -- Homework 1
+(25, 2, 84), (25, 3, 78), -- Homework 2
+(26, 2, 90), (26, 3, 80), -- Homework 3
+(15, 3, 89), (15, 4, 93),  -- Participation
+
+-- Scores for Course 4 (Students 5 and 6 are enrolled)
+(16, 5, 83), (16, 6, 90),  -- Midterm Exam
+(17, 5, 86), (17, 6, 92),  -- Final Exam
+(18, 5, 88), (18, 6, 83),  -- Project
+(19, 5, 85), (19, 6, 89),  -- Homework 1
+(27, 5, 86), (27, 6, 92), -- Homework 2
+(28, 5, 89), (28, 6, 94), -- Homework 3
+(20, 5, 90), (20, 6, 94);  -- Participation
+```
+
+### Commands for task 4 - 12
 
