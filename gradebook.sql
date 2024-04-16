@@ -78,6 +78,7 @@ INSERT INTO Enrollments (StudentID, CourseID) VALUES
 INSERT INTO Assignments (CourseID, AssignmentName, Category, Weight) VALUES
 (1, 'Homework 1', 'Homework', 10),
 (1, 'Project 1', 'Project', 20),
+(1, 'Participation', 'Participation', 70),
 (2, 'Midterm Exam', 'Exam', 30),
 (3, 'Essay', 'Homework', 25),
 (4, 'Lab Report', 'Lab', 15);
@@ -88,8 +89,8 @@ INSERT INTO Scores (AssignmentID, StudentID, Score) VALUES
 (1, 2, 90),
 (2, 1, 88),
 (3, 3, 92),
-(4, 4, 75);
-
+(4, 4, 75),
+(3, 1, 75);
 
 -- Task 4: Compute the average/highest/lowest score of an assignment;
 -- Average score
@@ -103,7 +104,7 @@ SELECT MIN(Score) AS LowestScore FROM Scores WHERE AssignmentID = 1;
 -- List all students in Calculus I
 SELECT s.StudentID, s.FirstName, s.LastName FROM Students s
 JOIN Enrollments e ON s.StudentID = e.StudentID
-WHERE e.CourseID = 101;
+WHERE e.CourseID = 1;
 
 -- Task 6: List all of the students in a course and all of their scores on every assignment;
 SELECT s.StudentID, s.FirstName, s.LastName, a.AssignmentName, sc.Score
@@ -111,16 +112,17 @@ FROM Students s
 JOIN Enrollments e ON s.StudentID = e.StudentID
 JOIN Assignments a ON e.CourseID = a.CourseID
 JOIN Scores sc ON s.StudentID = sc.StudentID AND a.AssignmentID = sc.AssignmentID
-WHERE e.CourseID = 101;
+WHERE e.CourseID = 1;
 
 -- Task 7: Add an assignment to a course;
-INSERT INTO Assignments (AssignmentID, CourseID, AssignmentName, Category, Weight) VALUES
-(2, 101, 'Final Exam', 'Tests', 50.0);
+INSERT INTO Assignments (CourseID, AssignmentName, Category, Weight) VALUES
+(2, 'Final Exam', 'Tests', 50.0);
+
 
 -- Task 8: Change the percentages of the categories for a course;
 UPDATE Assignments
 SET Weight = 40.0
-WHERE CourseID = 101 AND Category = 'Tests';
+WHERE CourseID = 1 AND Category = 'Exam';
 
 -- Task 9: Add 2 points to the score of each student on an assignment;
 UPDATE Scores
@@ -141,19 +143,22 @@ JOIN Assignments ON Scores.AssignmentID = Assignments.AssignmentID
 WHERE StudentID = 1
 GROUP BY StudentID;
 
--- Task 12: Compute the grade for a student, where the lowest score for a given category is dropped
-WITH CategoryScores AS (
-    SELECT s.StudentID, a.Category, sc.Score, a.Weight,
-           ROW_NUMBER() OVER (PARTITION BY s.StudentID, a.Category ORDER BY sc.Score ASC) AS RankNum
-    FROM Scores sc
-    JOIN Assignments a ON sc.AssignmentID = a.AssignmentID
-    JOIN Students s ON sc.StudentID = s.StudentID
-    WHERE s.StudentID = 1
-),
-FilteredScores AS (
-    SELECT StudentID, Score, Weight FROM CategoryScores WHERE RankNum > 1
-)
-SELECT StudentID, SUM(Score * Weight / 100) AS AdjustedGrade
-FROM FilteredScores
-GROUP BY StudentID;
+-- Compute the grade for a student, excluding the lowest score in the 'Homework' category.
+SELECT
+    s.StudentID,
+    SUM(CASE 
+            WHEN a.Category = 'Homework' AND sc.Score > (
+                SELECT MIN(Score)
+                FROM Scores sc2
+                JOIN Assignments a2 ON sc2.AssignmentID = a2.AssignmentID
+                WHERE a2.Category = 'Homework'
+                AND sc2.StudentID = s.StudentID
+            ) THEN sc.Score * a.Weight / 100
+            WHEN a.Category != 'Homework' THEN sc.Score * a.Weight / 100
+            ELSE 0
+        END) AS AdjustedGrade
+FROM Students s
+JOIN Scores sc ON s.StudentID = sc.StudentID
+JOIN Assignments a ON sc.AssignmentID = a.AssignmentID
+GROUP BY s.StudentID;
 
