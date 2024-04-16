@@ -1,145 +1,155 @@
 USE gradebook_db;
 
--- Courses
+-- Drop tables in the correct order
 DROP TABLE IF EXISTS Scores;
 DROP TABLE IF EXISTS Assignments;
-DROP TABLE IF EXISTS Categories;
+DROP TABLE IF EXISTS Enrollments;
 DROP TABLE IF EXISTS Students;
 DROP TABLE IF EXISTS Courses;
 
 -- Table for storing course information
 CREATE TABLE Courses (
-    CourseID INT PRIMARY KEY,
+    CourseID INT NOT NULL AUTO_INCREMENT,
     Department VARCHAR(50),
     CourseNumber VARCHAR(10),
     CourseName VARCHAR(100),
     Semester VARCHAR(10),
-    Year INT
+    Year INT,
+    PRIMARY KEY (CourseID)
 );
 
--- Table for storing student information
 CREATE TABLE Students (
-    StudentID INT PRIMARY KEY,
-    FirstName VARCHAR(50),
-    LastName VARCHAR(50)
+    StudentID INT NOT NULL AUTO_INCREMENT,
+    FirstName VARCHAR(100),
+    LastName VARCHAR(100),
+    PRIMARY KEY (StudentID)
 );
 
 -- Table for enrolling students in courses
 CREATE TABLE Enrollments (
-    EnrollmentID INT PRIMARY KEY,
+    -- EnrollmentID INT PRIMARY KEY,
     StudentID INT,
     CourseID INT,
+    PRIMARY KEY (StudentID, CourseID),
     FOREIGN KEY (StudentID) REFERENCES Students(StudentID),
     FOREIGN KEY (CourseID) REFERENCES Courses(CourseID)
 );
 
--- Table for assignments in each course
 CREATE TABLE Assignments (
-    AssignmentID INT PRIMARY KEY,
+    AssignmentID INT NOT NULL AUTO_INCREMENT,
     CourseID INT,
-    AssignmentName VARCHAR(100),
+    AssignmentName VARCHAR(255),
     Category VARCHAR(50),
     Weight FLOAT,
+    PRIMARY KEY (AssignmentID),
     FOREIGN KEY (CourseID) REFERENCES Courses(CourseID)
 );
 
 -- Table for scores on assignments
 CREATE TABLE Scores (
-    ScoreID INT PRIMARY KEY,
+    -- ScoreID INT PRIMARY KEY,
     AssignmentID INT,
     StudentID INT,
     Score FLOAT,
+    PRIMARY KEY (AssignmentID, StudentID),
     FOREIGN KEY (AssignmentID) REFERENCES Assignments(AssignmentID),
     FOREIGN KEY (StudentID) REFERENCES Students(StudentID)
 );
 
+INSERT INTO Courses (Department, CourseNumber, CourseName, Semester, Year) VALUES
+('Math', 'M101', 'Calculus I', 'Fall', 2024),
+('Science', 'SCI103', 'Biology', 'Fall', 2024),
+('English Language Arts', 'ELA105', 'Essay Writing', 'Fall', 2024),
+('History', 'HIST107', 'US History', 'Fall', 2024);
 
--- Insert course data
-INSERT INTO Courses (CourseID, Department, CourseNumber, CourseName, Semester, Year) VALUES
-(101, 'Math', 'M101', 'Calculus I', 'Fall', 2024);
+INSERT INTO Students (FirstName, LastName) VALUES
+('John', 'Doe'),
+('Anna', 'Bell'),
+('April', 'Jones'),
+('John', 'Wick'),
+('Tyler', 'Johnson'),
+('Jane', 'Doe');
 
--- Insert student data
-INSERT INTO Students (StudentID, FirstName, LastName) VALUES
-(1, 'John', 'Doe');
+-- Inserting enrollments without specifying EnrollmentID
+INSERT INTO Enrollments (StudentID, CourseID) VALUES
+(1, 1),
+(2, 1),
+(2, 3),
+(3, 3),
+(3, 2),
+(4, 2),
+(5, 4),
+(6, 4);
 
--- Enroll a student in a course
-INSERT INTO Enrollments (EnrollmentID, StudentID, CourseID) VALUES
-(1, 1, 101);
+-- Inserting assignments without specifying AssignmentID
+INSERT INTO Assignments (CourseID, AssignmentName, Category, Weight) VALUES
+-- Course one
+(1, 'Midterm Exam', 'Tests', 25.0),
+(1, 'Final Exam', 'Test', 25.0),
+(1, 'Project', 'Projects', 20.0),
+(1, 'Homework 1', 'Homeworks', 5.0),
+(1, 'Homework 2', 'Homeworks', 5.0),
+(1, 'Homework 3', 'Homeworks', 5.0),
+(1, 'Participation', 'Participation', 5.0),
+-- Course three
+(3, 'Midterm Exam', 'Tests', 25.0),
+(3, 'Final Exam', 'Test', 25.0),
+(3, 'Project', 'Projects', 20.0),
+(3, 'Homework 1', 'Homeworks', 5.0),
+(3, 'Homework 2', 'Homeworks', 5.0),
+(3, 'Homework 3', 'Homeworks', 5.0),
+(3, 'Participation', 'Participation', 5.0),
+-- Course two
+(2, 'Midterm Exam', 'Test', 25.0),
+(2, 'Final Exam', 'Test', 25.0),
+(2, 'Project', 'Projects', 20.0),
+(2, 'Homework 1', 'Homeworks', 5.0),
+(2, 'Homework 2', 'Homeworks', 5.0),
+(2, 'Homework 3', 'Homeworks', 5.0),
+(2, 'Participation', 'Participation', 5.0),
+-- Course four
+(4, 'Midterm Exam', 'Test', 25.0),
+(4, 'Final Exam', 'Test', 25.0),
+(4, 'Project', 'Projects', 20.0),
+(4, 'Homework 1', 'Homeworks', 5.0),
+(4, 'Homework 2', 'Homeworks', 5.0),
+(4, 'Homework 3', 'Homeworks', 5.0),
+(4, 'Participation', 'Participation', 5.0);
 
--- Add an assignment to a course
-INSERT INTO Assignments (AssignmentID, CourseID, AssignmentName, Category, Weight) VALUES
-(1, 101, 'Midterm Exam', 'Tests', 50.0);
+-- Inserting fake score data into the Scores table
+INSERT INTO Scores (AssignmentID, StudentID, Score) VALUES
+-- Scores for Course 1 (Students 1 and 2 are enrolled)
+(1, 1, 84), (1, 2, 91),  -- Midterm Exam
+(2, 1, 86), (2, 2, 90),  -- Final Exam
+(3, 1, 90), (3, 2, 85),  -- Project
+(4, 1, 81), (4, 2, 88),  -- Homework 1
+(21, 1, 83), (21, 2, 88), -- Homework 2
+(22, 1, 87), (22, 2, 91), -- Homework 3
+(5, 1, 88), (5, 2, 92),  -- Participation
 
--- Add scores for assignments
-INSERT INTO Scores (ScoreID, AssignmentID, StudentID, Score) VALUES
-(1, 1, 1, 88.0);
-INSERT INTO Scores (ScoreID, AssignmentID, StudentID, Score) VALUES
-(2, 2, 1, 75.0);
+-- Scores for Course 3 (Students 2 and 3 are enrolled)
+(6, 2, 85), (6, 3, 75),  -- Midterm Exam
+(7, 2, 91), (7, 3, 76),  -- Final Exam
+(8, 2, 84), (8, 3, 82),  -- Project
+(9, 2, 87), (9, 3, 78),  -- Homework 1
+(23, 3, 85), (23, 4, 89), -- Homework 2
+(24, 3, 82), (24, 4, 92), -- Homework 3
+(10, 2, 90), (10, 3, 83),-- Participation
 
+-- Scores for Course 2 (Students 3 and 4 are enrolled)
+(11, 3, 87), (11, 4, 92),  -- Midterm Exam
+(12, 3, 84), (12, 4, 89),  -- Final Exam
+(13, 3, 91), (13, 4, 86),  -- Project
+(14, 3, 82), (14, 4, 90),  -- Homework 1
+(25, 2, 84), (25, 3, 78), -- Homework 2
+(26, 2, 90), (26, 3, 80), -- Homework 3
+(15, 3, 89), (15, 4, 93),  -- Participation
 
--- Task 4: Compute the average/highest/lowest score of an assignment;
--- Average score
-SELECT AVG(Score) AS AverageScore FROM Scores WHERE AssignmentID = 1;
--- Highest score
-SELECT MAX(Score) AS HighestScore FROM Scores WHERE AssignmentID = 1;
--- Lowest score
-SELECT MIN(Score) AS LowestScore FROM Scores WHERE AssignmentID = 1;
-
--- Task 5: List all of the students in a given course; ???
--- List all students in Calculus I
-SELECT s.StudentID, s.FirstName, s.LastName FROM Students s
-JOIN Enrollments e ON s.StudentID = e.StudentID
-WHERE e.CourseID = 101;
-
--- Task 6: List all of the students in a course and all of their scores on every assignment;
-SELECT s.StudentID, s.FirstName, s.LastName, a.AssignmentName, sc.Score
-FROM Students s
-JOIN Enrollments e ON s.StudentID = e.StudentID
-JOIN Assignments a ON e.CourseID = a.CourseID
-JOIN Scores sc ON s.StudentID = sc.StudentID AND a.AssignmentID = sc.AssignmentID
-WHERE e.CourseID = 101;
-
--- Task 7: Add an assignment to a course;
-INSERT INTO Assignments (AssignmentID, CourseID, AssignmentName, Category, Weight) VALUES
-(2, 101, 'Final Exam', 'Tests', 50.0);
-
--- Task 8: Change the percentages of the categories for a course;
-UPDATE Assignments
-SET Weight = 40.0
-WHERE CourseID = 101 AND Category = 'Tests';
-
--- Task 9: Add 2 points to the score of each student on an assignment;
-UPDATE Scores
-SET Score = Score + 2
-WHERE AssignmentID = 1;
-
--- Task 10: Add 2 points just to those students whose last name contains a ‘Q’.
-UPDATE Scores
-SET Score = Score + 2
-WHERE StudentID IN (
-    SELECT StudentID FROM Students WHERE LastName LIKE '%Q%'
-) AND AssignmentID = 1;
-
--- Task 11: Compute the grade for a student;
-SELECT StudentID, SUM(Score * Weight / 100) AS TotalGrade
-FROM Scores
-JOIN Assignments ON Scores.AssignmentID = Assignments.AssignmentID
-WHERE StudentID = 1
-GROUP BY StudentID;
-
--- Task 12: Compute the grade for a student, where the lowest score for a given category is dropped
-WITH CategoryScores AS (
-    SELECT s.StudentID, a.Category, sc.Score, a.Weight,
-           ROW_NUMBER() OVER (PARTITION BY s.StudentID, a.Category ORDER BY sc.Score ASC) AS RankNum
-    FROM Scores sc
-    JOIN Assignments a ON sc.AssignmentID = a.AssignmentID
-    JOIN Students s ON sc.StudentID = s.StudentID
-    WHERE s.StudentID = 1
-),
-FilteredScores AS (
-    SELECT StudentID, Score, Weight FROM CategoryScores WHERE RankNum > 1
-)
-SELECT StudentID, SUM(Score * Weight / 100) AS AdjustedGrade
-FROM FilteredScores
-GROUP BY StudentID;
-
+-- Scores for Course 4 (Students 5 and 6 are enrolled)
+(16, 5, 83), (16, 6, 90),  -- Midterm Exam
+(17, 5, 86), (17, 6, 92),  -- Final Exam
+(18, 5, 88), (18, 6, 83),  -- Project
+(19, 5, 85), (19, 6, 89),  -- Homework 1
+(27, 5, 86), (27, 6, 92), -- Homework 2
+(28, 5, 89), (28, 6, 94), -- Homework 3
+(20, 5, 90), (20, 6, 94);  -- Participation
