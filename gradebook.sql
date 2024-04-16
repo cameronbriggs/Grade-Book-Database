@@ -58,23 +58,127 @@ CREATE TABLE Scores (
 INSERT INTO Courses (CourseID, Department, CourseNumber, CourseName, Semester, Year) VALUES
 (101, 'Math', 'M101', 'Calculus I', 'Fall', 2024);
 
+INSERT INTO Courses(CourseID, Department, CourseNumber, CourseName, Semester, Year) VALUES
+(103, 'Science', 'SCI103', 'Biology', 'Fall', 2024);
+
+INSERT INTO Courses(CourseID, Department, CourseNumber, CourseName, Semester, Year) VALUES
+(105, 'English Language Arts', 'ELA105', 'Essay Writing', 'Fall', 2024);
+
+INSERT INTO Courses(CourseID, Department, CourseNumber, CourseName, Semester, Year) VALUES
+(107, 'History', 'HIST107', 'US History', 'Fall', 2024);
+
 -- Insert student data
 INSERT INTO Students (StudentID, FirstName, LastName) VALUES
 (1, 'John', 'Doe');
+
+INSERT INTO Students (StudentID, FirstName, LastName) VALUES
+(2, 'Anna', 'Bell');
+
+INSERT INTO Students (StudentID, FirstName, LastName) VALUES
+(3, 'April', 'Jones');
+
+INSERT INTO Students (StudentID, FirstName, LastName) VALUES
+(4, 'John', 'Wick');
+
+INSERT INTO Students (StudentID, FirstName, LastName) VALUES
+(5, 'Tyler', 'Johnson');
+
+INSERT INTO Students (StudentID, FirstName, LastName) VALUES
+(6, 'Jane', 'Doe');
 
 -- Enroll a student in a course
 INSERT INTO Enrollments (EnrollmentID, StudentID, CourseID) VALUES
 (1, 1, 101);
 
+INSERT INTO Enrollments (EnrollmentID, StudentID, CourseID) VALUES
+(2, 2, 101);
+
+INSERT INTO Enrollments (EnrollmentID, StudentID, CourseID) VALUES
+(3, 2, 103);
+
+INSERT INTO Enrollments (EnrollmentID, StudentID, CourseID) VALUES
+(4, 3, 103);
+
+INSERT INTO Enrollments (EnrollmentID, StudentID, CourseID) VALUES
+(5, 3, 105);
+
+INSERT INTO Enrollments (EnrollmentID, StudentID, CourseID) VALUES
+(6, 4, 105);
+
+INSERT INTO Enrollments (EnrollmentID, StudentID, CourseID) VALUES
+(7, 5, 107);
+
+INSERT INTO Enrollments (EnrollmentID, StudentID, CourseID) VALUES
+(8, 6, 107);
+
 -- Add an assignment to a course
 INSERT INTO Assignments (AssignmentID, CourseID, AssignmentName, Category, Weight) VALUES
-(1, 101, 'Midterm Exam', 'Tests', 50.0);
+(1, 101, 'Midterm Exam', 'Tests', 25.0);
+
+INSERT INTO Assignments (AssignmentID, CourseID, AssignmentName, Category, Weight) VALUES
+(2, 101, 'Final Exam', 'Test', 25.0);
+
+INSERT INTO Assignments (AssignmentID, CourseID, AssignmentName, Category, Weight) VALUES
+(3, 101, 'Project', 'Projects', 20.0);
+
+INSERT INTO Assignments (AssignmentID, CourseID, AssignmentName, Category, Weight) VALUES
+(4, 101, 'Homework', 'Homeworks', 20.0);
+
+INSERT INTO Assignments (AssignmentID, CourseID, AssignmentName, Category, Weight) VALUES
+(5, 101, 'Paticipation', 'Participation', 10.0)
+
+INSERT INTO Assignments (AssignmentID, CourseID, AssignmentName, Category, Weight) VALUES
+(6, 103, 'Midterm Exam', 'Tests', 25.0);
+
+INSERT INTO Assignments (AssignmentID, CourseID, AssignmentName, Category, Weight) VALUES
+(7, 103, 'Final Exam', 'Test', 25.0);
+
+INSERT INTO Assignments (AssignmentID, CourseID, AssignmentName, Category, Weight) VALUES
+(8, 103, 'Project', 'Projects', 20.0);
+
+INSERT INTO Assignments (AssignmentID, CourseID, AssignmentName, Category, Weight) VALUES
+(9, 103, 'Homework', 'Homeworks', 20.0);
+
+INSERT INTO Assignments (AssignmentID, CourseID, AssignmentName, Category, Weight) VALUES
+(10, 103, 'Participation', 'Participation', 10.0);
+
+INSERT INTO Assignments (AssignmentID, CourseID, AssignmentName, Category, Weight) VALUES
+(11, 105, 'Midterm Exam', 'Test', 25.0);
+
+INSERT INTO Assignments (AssignmentID, CourseID, AssignmentName, Category, Weight) VALUES
+(12, 105, 'Final Exam', 'Test', 25.0);
+
+INSERT INTO Assignments (AssignmentID, CourseID, AssignmentName, Category, Weight) VALUES
+(13, 105, 'Project', 'Projects', 20.0);
+
+INSERT INTO Assignments (AssignmentID, CourseID, AssignmentName, Category, Weight) VALUES
+(14, 105, 'Homework', 'Homeworks', 20.0);
+
+INSERT INTO Assignments (AssignmentID, CourseID, AssignmentName, Category, Weight) VALUES
+(15, 105, 'Participation', 'Participation', 10.0);
+
+INSERT INTO Assignments (AssignmentID, CourseID, AssignmentName, Category, Weight) VALUES
+(16, 107, 'Midterm Exam', 'Test', 25.0);
+
+INSERT INTO Assignments (AssignmentID, CourseID, AssignmentName, Category, Weight) VALUES
+(17, 107, 'Final Exam', 'Test', 25.0);
+
+INSERT INTO Assignments (AssignmentID, CourseID, AssignmentName, Category, Weight) VALUES
+(18, 107, 'Project', 'Projects', 20.0);
+
+INSERT INTO Assignments (AssignmentID, CourseID, AssignmentName, Category, Weight) VALUES
+(19, 107, 'Homework', 'Homeworks', 20.0);
+
+INSERT INTO Assignments (AssignmentID, CourseID, AssignmentName, Category, Weight) VALUES
+(20, 107, 'Participation', 'Participation', 10.0);
 
 -- Add scores for assignments
 INSERT INTO Scores (ScoreID, AssignmentID, StudentID, Score) VALUES
 (1, 1, 1, 88.0);
+
 INSERT INTO Scores (ScoreID, AssignmentID, StudentID, Score) VALUES
 (2, 2, 1, 75.0);
+
 
 
 -- Task 4: Compute the average/highest/lowest score of an assignment;
