@@ -90,7 +90,7 @@ INSERT INTO Assignments (CourseID, AssignmentName, Category, Weight) VALUES
 (1, 'Homework 1', 'Homeworks', 5.0),
 (1, 'Homework 2', 'Homeworks', 5.0),
 (1, 'Homework 3', 'Homeworks', 5.0),
-(1, 'Participation', 'Participation', 5.0),
+(1, 'Participation', 'Participation', 15.0),
 -- Course three
 (3, 'Midterm Exam', 'Tests', 25.0),
 (3, 'Final Exam', 'Test', 25.0),
@@ -98,7 +98,7 @@ INSERT INTO Assignments (CourseID, AssignmentName, Category, Weight) VALUES
 (3, 'Homework 1', 'Homeworks', 5.0),
 (3, 'Homework 2', 'Homeworks', 5.0),
 (3, 'Homework 3', 'Homeworks', 5.0),
-(3, 'Participation', 'Participation', 5.0),
+(3, 'Participation', 'Participation', 15.0),
 -- Course two
 (2, 'Midterm Exam', 'Test', 25.0),
 (2, 'Final Exam', 'Test', 25.0),
@@ -106,7 +106,7 @@ INSERT INTO Assignments (CourseID, AssignmentName, Category, Weight) VALUES
 (2, 'Homework 1', 'Homeworks', 5.0),
 (2, 'Homework 2', 'Homeworks', 5.0),
 (2, 'Homework 3', 'Homeworks', 5.0),
-(2, 'Participation', 'Participation', 5.0),
+(2, 'Participation', 'Participation', 15.0),
 -- Course four
 (4, 'Midterm Exam', 'Test', 25.0),
 (4, 'Final Exam', 'Test', 25.0),
@@ -114,7 +114,7 @@ INSERT INTO Assignments (CourseID, AssignmentName, Category, Weight) VALUES
 (4, 'Homework 1', 'Homeworks', 5.0),
 (4, 'Homework 2', 'Homeworks', 5.0),
 (4, 'Homework 3', 'Homeworks', 5.0),
-(4, 'Participation', 'Participation', 5.0);
+(4, 'Participation', 'Participation', 15.0);
 
 -- Inserting fake score data into the Scores table
 INSERT INTO Scores (AssignmentID, StudentID, Score) VALUES
