@@ -1,80 +1,94 @@
 USE gradebook_db;
 
--- Courses
+-- Drop tables in the correct order
 DROP TABLE IF EXISTS Scores;
 DROP TABLE IF EXISTS Assignments;
-DROP TABLE IF EXISTS Categories;
+DROP TABLE IF EXISTS Enrollments;
 DROP TABLE IF EXISTS Students;
 DROP TABLE IF EXISTS Courses;
 
 -- Table for storing course information
 CREATE TABLE Courses (
-    CourseID INT PRIMARY KEY,
+    CourseID INT NOT NULL AUTO_INCREMENT,
     Department VARCHAR(50),
     CourseNumber VARCHAR(10),
     CourseName VARCHAR(100),
     Semester VARCHAR(10),
-    Year INT
+    Year INT,
+    PRIMARY KEY (CourseID)
 );
 
--- Table for storing student information
 CREATE TABLE Students (
-    StudentID INT PRIMARY KEY,
-    FirstName VARCHAR(50),
-    LastName VARCHAR(50)
+    StudentID INT NOT NULL AUTO_INCREMENT,
+    FirstName VARCHAR(100),
+    LastName VARCHAR(100),
+    PRIMARY KEY (StudentID)
 );
 
 -- Table for enrolling students in courses
 CREATE TABLE Enrollments (
-    EnrollmentID INT PRIMARY KEY,
+    -- EnrollmentID INT PRIMARY KEY,
     StudentID INT,
     CourseID INT,
+    PRIMARY KEY (StudentID, CourseID),
     FOREIGN KEY (StudentID) REFERENCES Students(StudentID),
     FOREIGN KEY (CourseID) REFERENCES Courses(CourseID)
 );
 
--- Table for assignments in each course
 CREATE TABLE Assignments (
-    AssignmentID INT PRIMARY KEY,
+    AssignmentID INT NOT NULL AUTO_INCREMENT,
     CourseID INT,
-    AssignmentName VARCHAR(100),
+    AssignmentName VARCHAR(255),
     Category VARCHAR(50),
     Weight FLOAT,
+    PRIMARY KEY (AssignmentID),
     FOREIGN KEY (CourseID) REFERENCES Courses(CourseID)
 );
 
 -- Table for scores on assignments
 CREATE TABLE Scores (
-    ScoreID INT PRIMARY KEY,
+    -- ScoreID INT PRIMARY KEY,
     AssignmentID INT,
     StudentID INT,
     Score FLOAT,
+    PRIMARY KEY (AssignmentID, StudentID),
     FOREIGN KEY (AssignmentID) REFERENCES Assignments(AssignmentID),
     FOREIGN KEY (StudentID) REFERENCES Students(StudentID)
 );
 
+INSERT INTO Courses (Department, CourseNumber, CourseName, Semester, Year) VALUES
+('Computer Science', 'CS101', 'Intro to Programming', 'Fall', 2024),
+('Mathematics', 'MA201', 'Calculus I', 'Spring', 2024),
+('Literature', 'LT301', 'American Literature', 'Fall', 2024),
+('Physics', 'PH101', 'General Physics', 'Spring', 2024);
 
--- Insert course data
-INSERT INTO Courses (CourseID, Department, CourseNumber, CourseName, Semester, Year) VALUES
-(101, 'Math', 'M101', 'Calculus I', 'Fall', 2024);
+INSERT INTO Students (FirstName, LastName) VALUES
+('John', 'Doe'),
+('Jane', 'Smith'),
+('Alice', 'Johnson'),
+('Bob', 'Brown');
 
--- Insert student data
-INSERT INTO Students (StudentID, FirstName, LastName) VALUES
-(1, 'John', 'Doe');
+INSERT INTO Enrollments (StudentID, CourseID) VALUES
+(1, 1),
+(2, 1),
+(1, 2),
+(3, 3),
+(4, 4);
 
--- Enroll a student in a course
-INSERT INTO Enrollments (EnrollmentID, StudentID, CourseID) VALUES
-(1, 1, 101);
+INSERT INTO Assignments (CourseID, AssignmentName, Category, Weight) VALUES
+(1, 'Homework 1', 'Homework', 10),
+(1, 'Project 1', 'Project', 20),
+(2, 'Midterm Exam', 'Exam', 30),
+(3, 'Essay', 'Homework', 25),
+(4, 'Lab Report', 'Lab', 15);
 
--- Add an assignment to a course
-INSERT INTO Assignments (AssignmentID, CourseID, AssignmentName, Category, Weight) VALUES
-(1, 101, 'Midterm Exam', 'Tests', 50.0);
 
--- Add scores for assignments
-INSERT INTO Scores (ScoreID, AssignmentID, StudentID, Score) VALUES
-(1, 1, 1, 88.0);
-INSERT INTO Scores (ScoreID, AssignmentID, StudentID, Score) VALUES
-(2, 2, 1, 75.0);
+INSERT INTO Scores (AssignmentID, StudentID, Score) VALUES
+(1, 1, 85),
+(1, 2, 90),
+(2, 1, 88),
+(3, 3, 92),
+(4, 4, 75);
 
 
 -- Task 4: Compute the average/highest/lowest score of an assignment;
