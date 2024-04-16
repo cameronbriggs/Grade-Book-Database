@@ -143,7 +143,7 @@ JOIN Assignments ON Scores.AssignmentID = Assignments.AssignmentID
 WHERE StudentID = 1
 GROUP BY StudentID;
 
--- Compute the grade for a student, excluding the lowest score in the 'Homework' category.
+-- Task 12: Compute the grade for a student, excluding the lowest score in the 'Homework' category.
 SELECT
     s.StudentID,
     SUM(CASE 
